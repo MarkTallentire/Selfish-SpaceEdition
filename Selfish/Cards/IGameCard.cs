@@ -5,7 +5,7 @@ public interface IGameCard : ICard
     public void Use();
 }
 
-class OxygenCard : ICard, IGameCard
+class OxygenCard : IGameCard
 {
     public CardType CardType { get; } = CardType.Oxygen;
     public int Value { get; } = 0;
@@ -22,7 +22,7 @@ class OxygenCard : ICard, IGameCard
 }
 
 
-public class OxygenSiphon : IGameCard, ICard
+public class OxygenSiphon : IGameCard
 {
     public CardType CardType { get; } = CardType.Game;
     
@@ -32,7 +32,7 @@ public class OxygenSiphon : IGameCard, ICard
     }
 }
 
-public class Shield : IGameCard, ICard
+public class Shield : IGameCard
 {
     public CardType CardType { get; } = CardType.Game;
     
@@ -42,7 +42,7 @@ public class Shield : IGameCard, ICard
     }
 }
 
-public class HackSuit: IGameCard, ICard
+public class HackSuit: IGameCard
 {
     public void Use()
     {
@@ -53,7 +53,7 @@ public class HackSuit: IGameCard, ICard
 }
 
 
-public class TractorBeam: IGameCard, ICard
+public class TractorBeam: IGameCard
 {
     public void Use()
     {
@@ -63,7 +63,7 @@ public class TractorBeam: IGameCard, ICard
     public CardType CardType { get; } = CardType.Game;
 }
 
-public class RocketBooster: IGameCard, ICard
+public class RocketBooster: IGameCard
 {
     public void Use()
     {
@@ -73,7 +73,7 @@ public class RocketBooster: IGameCard, ICard
     public CardType CardType { get; } = CardType.Game;
 }
 
-public class LaserBlast: IGameCard, ICard
+public class LaserBlast: IGameCard
 {
     public void Use()
     {
@@ -83,7 +83,7 @@ public class LaserBlast: IGameCard, ICard
     public CardType CardType { get; } = CardType.Game;
 }
 
-public class HoleInSuit : IGameCard, ICard
+public class HoleInSuit : IGameCard
 {
     public void Use()
     {
@@ -93,7 +93,7 @@ public class HoleInSuit : IGameCard, ICard
     public CardType CardType { get; } = CardType.Game;
 }
 
-public class Tether : IGameCard, ICard
+public class Tether : IGameCard
 {
     public void Use()
     {
