@@ -41,8 +41,7 @@ public abstract class Deck<T>
         BuildDeck();
     }
 
-    public abstract void BuildDeck();
-    public abstract void Deal(List<IPlayer> players);
+    protected abstract void BuildDeck();
 }
 
 public class SpaceDeck : Deck<ISpaceCard>
@@ -63,7 +62,8 @@ public class SpaceDeck : Deck<ISpaceCard>
         BuildDeck();
         Shuffle();
     }
-    public override void BuildDeck()
+
+    protected override void BuildDeck()
     {
         AddUsefulJunkCards();
         AddMysteriousNebulaCards();
@@ -158,14 +158,9 @@ public class SpaceDeck : Deck<ISpaceCard>
         }
     }
 
-    //Im unhappy with this but not sure how to design these classes correctly
-    public override void Deal(List<IPlayer> players)
-    {
-        throw new NotImplementedException();
-    }
 }
 
-public class GameDeck : Deck<IGameCard>
+public class GameDeck : Deck<IGameCard>, IDealable
 {
     private const int NumberOfSingleOxygenCards = 38;
     private const int NumberOfDoubleOxygenCards = 10;
@@ -182,14 +177,14 @@ public class GameDeck : Deck<IGameCard>
         BuildDeck();
     }
 
-    public override void BuildDeck()
+    protected override void BuildDeck()
     {
         AddOxygenCards();
         AddGameCards();
     }
     
 
-    public override void Deal(List<IPlayer> players)
+    public void Deal(List<IPlayer> players)
     {
         foreach (var player in players)
         {
@@ -250,4 +245,9 @@ public class GameDeck : Deck<IGameCard>
             Cards.Add(new OxygenSiphon());
         }
     }
+}
+
+public interface IDealable
+{
+    void Deal(List<IPlayer> players);
 }
