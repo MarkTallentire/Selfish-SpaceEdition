@@ -44,12 +44,14 @@ for (int i = 0; i < humanPlayers; i++)
 {
     var player = new Player();
     player.ChooseAstronautCard(astronautCards);
+    astronautCards.Remove(player.AstronautCard);
     players.Add(player);
 }
 for (int i = 0; i < computerPlayers; i++)
 {
     var computer = new Computer();
     computer.ChooseAstronautCard(astronautCards);
+    astronautCards.Remove(computer.AstronautCard);
     players.Add(computer);
 }
 
