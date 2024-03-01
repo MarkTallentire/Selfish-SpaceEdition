@@ -5,16 +5,20 @@ public interface IGameCard : ICard
     public void Use();
 }
 
-class OxygenCard : IGameCard
+class SingleOxygenCard : IGameCard
 {
-    public CardType CardType { get; } = CardType.Oxygen;
-    public int Value { get; } = 0;
-
-    public OxygenCard(int value)
+    public CardType CardType { get; } = CardType.SingleOxygen;
+    
+    public void Use()
     {
-        Value = value;
+        throw new NotImplementedException();
     }
+}
 
+class DoubleOxygenCard : IGameCard
+{
+    public CardType CardType { get; } = CardType.DoubleOxygen;
+    
     public void Use()
     {
         throw new NotImplementedException();

@@ -24,14 +24,10 @@ public class Deck
         foreach (var player in players)
         {
             var doubleOxygenCard = Cards
-                .Where(x => x.CardType == CardType.Oxygen)
-                .Select(x => x as OxygenCard)
-                .FirstOrDefault(x=> x!.Value == 2);
+                .FirstOrDefault(x => x.CardType == CardType.DoubleOxygen);
             
             var singleOxygenCards = Cards
-                .Where(x => x.CardType == CardType.Oxygen)
-                .Select(x => x as OxygenCard)
-                .Where(x=> x!.Value == 1)
+                .Where(x => x.CardType == CardType.SingleOxygen)
                 .Take(NumberOfSingleOxygenPerPlayer)
                 .ToList();
             
@@ -72,12 +68,12 @@ public class Deck
     {
         for (var i = 0; i < NumberOfSingleOxygenCards; i++ )
         {
-            Cards.Add(new OxygenCard(1));
+            Cards.Add(new SingleOxygenCard());
         }
 
         for (var i = 0; i < NumberOfDoubleOxygenCards; i++)
         {
-            Cards.Add(new OxygenCard(2));
+            Cards.Add(new DoubleOxygenCard());
         }
         
     }

@@ -5,5 +5,6 @@ public enum CardType
     Astronaut,
     Space,
     Game,
-    Oxygen
+    DoubleOxygen,
+    SingleOxygen
 }
