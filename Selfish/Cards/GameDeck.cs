@@ -2,25 +2,46 @@ using Selfish;
 
 namespace Selfish;
 
-
 public abstract class Deck<T>
 {
     public List<T> Cards { get; } = new();
+
     protected void Shuffle()
     {
         var random = new Random();
-        
+
         for (int i = 0; i < Cards.Count; i++)
         {
             var swapIndex = random.Next(0, Cards.Count);
-            
+
             // ReSharper disable once SwapViaDeconstruction
             var swapCard = Cards[i];
             Cards[i] = Cards[swapIndex];
             Cards[swapIndex] = swapCard;
         }
     }
-    
+
+    public T TakeTopCard()
+    {
+        if (Cards.Count == 0)
+        {
+            throw new Exception("Deck is empty");
+        }
+
+        var card = Cards[0];
+        Cards.RemoveAt(0);
+        return card;
+    }
+
+    public void ReplenishIfEmpty(List<ICard> discardPile)
+    {
+        if (Cards.Count != 0) return;
+        
+        discardPile.Clear();
+        BuildDeck();
+    }
+
+    public abstract void BuildDeck();
     public abstract void Deal(List<IPlayer> players);
 }
 
@@ -39,6 +60,11 @@ public class SpaceDeck : Deck<ISpaceCard>
 
     public SpaceDeck()
     {
+        BuildDeck();
+        Shuffle();
+    }
+    public override void BuildDeck()
+    {
         AddUsefulJunkCards();
         AddMysteriousNebulaCards();
         AddHyperSpaceCards();
@@ -50,7 +76,7 @@ public class SpaceDeck : Deck<ISpaceCard>
         AddWormHoleCards();
         AddSolarFlareCards();
     }
-    
+
 
     private void AddSolarFlareCards()
     {
@@ -146,15 +172,22 @@ public class GameDeck : Deck<IGameCard>
     private const int NumberOfGameCards = 4;
 
     private const int NumberOfSingleOxygenPerPlayer = 4;
+
     //private const int NumberOfDoubleOxygenPerPlayer = 1; //Using first or default so cant do this one. be aware this will need to be a list in the future.
     private const int NumberOfRandomGameCardsPerPlayer = 4;
 
     public GameDeck()
     {
         //Create all the cards and add them to the deck
+        BuildDeck();
+    }
+
+    public override void BuildDeck()
+    {
         AddOxygenCards();
         AddGameCards();
     }
+    
 
     public override void Deal(List<IPlayer> players)
     {
@@ -162,21 +195,21 @@ public class GameDeck : Deck<IGameCard>
         {
             var doubleOxygenCard = Cards
                 .FirstOrDefault(x => x.CardType == CardType.DoubleOxygen);
-            
+
             var singleOxygenCards = Cards
                 .Where(x => x.CardType == CardType.SingleOxygen)
                 .Take(NumberOfSingleOxygenPerPlayer)
                 .ToList();
-            
+
             player.AddCardToHand(doubleOxygenCard!);
             Cards.Remove(doubleOxygenCard!);
-            
+
             foreach (var singleOxygenCard in singleOxygenCards)
             {
                 player.AddCardToHand(singleOxygenCard!);
                 Cards.Remove(singleOxygenCard!);
             }
-            
+
             Shuffle();
 
             for (int i = 0; i < NumberOfRandomGameCardsPerPlayer; i++)
@@ -185,10 +218,10 @@ public class GameDeck : Deck<IGameCard>
             }
         }
     }
-    
+
     private void AddOxygenCards()
     {
-        for (var i = 0; i < NumberOfSingleOxygenCards; i++ )
+        for (var i = 0; i < NumberOfSingleOxygenCards; i++)
         {
             Cards.Add(new SingleOxygenCard());
         }
@@ -212,10 +245,9 @@ public class GameDeck : Deck<IGameCard>
 
             //These 2 cards only have 3 of each.
             if (i != NumberOfGameCards - 1) continue;
-            
+
             Cards.Add(new HackSuit());
             Cards.Add(new OxygenSiphon());
-
         }
     }
 }

@@ -2,19 +2,35 @@ namespace Selfish;
 
 public class Game
 {
-    private readonly List<ICard> _discardPile = new List<ICard>();
-    private readonly GameDeck _gameDeck;
-    private readonly SpaceDeck _space;
-    private readonly List<ICard> _spaceDiscardPile = new List<ICard>();
+    private List<ICard> _discardPile = [];
+    private GameDeck _gameDeck;
+    private SpaceDeck _spaceDeck;
+    private List<ICard> _spaceDiscardPile = [];
     
     private readonly List<IPlayer> _players;
 
     
-    public Game(GameDeck gameDeck, SpaceDeck spaceDeck, Board gameBoard, List<IPlayer> players)
+    public Game(GameDeck gameDeck, SpaceDeck spaceDeckDeck, Board gameBoard, List<IPlayer> players)
     {
         _gameDeck = gameDeck;
-        _space = spaceDeck;
+        _spaceDeck = spaceDeckDeck;
         _players = players;
-        gameBoard.Render(_gameDeck, _space, _discardPile.Count, _spaceDiscardPile.Count);
+        gameBoard.Render(_gameDeck, _spaceDeck, _discardPile.Count, _spaceDiscardPile.Count);
+
+
+        while (true)
+        {
+            foreach (var player in players)
+            {
+                player.AddCardToHand(_gameDeck.TakeTopCard());
+                
+                _spaceDeck.ReplenishIfEmpty(_spaceDiscardPile);
+                _gameDeck.ReplenishIfEmpty(_discardPile);
+            }
+            
+            gameBoard.Render(_gameDeck, _spaceDeck, _discardPile.Count, _spaceDiscardPile.Count);
+        }
+        
     }
+  
 }
