@@ -1,10 +1,9 @@
 namespace Selfish;
 
-public class Board(List<IPlayer> players, Deck gameDeck)
+public class Board(List<IPlayer> players, GameDeck gameDeck, SpaceDeck spaceDeck)
 {
     private IPlayer[,] _grid = new IPlayer[players.Count, 6];
-    private List<ICard> _discardPile = new List<ICard>();
-    private Deck _gameDeck = gameDeck;
+
 
     public void Generate()
     {
@@ -14,7 +13,7 @@ public class Board(List<IPlayer> players, Deck gameDeck)
         }
     }
 
-    public void Render()
+    public void Render(GameDeck gameDeck, SpaceDeck spaceDeck, int gameCardDiscardPile, int spaceCardDiscardPile)
     {
         for (var y = _grid.GetLength(1) - 1; y >= 0; y--)
         {
@@ -33,7 +32,10 @@ public class Board(List<IPlayer> players, Deck gameDeck)
             Console.WriteLine();
         }
         
-        Console.WriteLine($"Number of Cards Remaining: {_gameDeck.Cards.Count()}.");
-        Console.WriteLine($"Cards in Discard Pile: {_discardPile.Count}");
+        Console.WriteLine($"Number of Cards Remaining: {gameDeck.Cards.Count}.");
+        Console.WriteLine($"Cards in Discard Pile: {gameCardDiscardPile}");
+        
+        Console.WriteLine($"Space deck cards remaining:{spaceDeck.Cards.Count}");
+        Console.WriteLine($"Space cards in discard pile: {spaceCardDiscardPile}");
     }
 }

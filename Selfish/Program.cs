@@ -9,13 +9,12 @@ computer.ChooseAstronautCard(astronautCards);
 var player = new Player();
 player.ChooseAstronautCard(astronautCards);
 
-
-var deck = new Deck();
-
+var deck = new GameDeck();
 deck.Deal([computer, player]);
 
-
-var gameBoard = new Board([computer, player], deck);
+var spaceDeck = new SpaceDeck();
+var gameBoard = new Board([computer, player], deck, spaceDeck);
 
 gameBoard.Generate();
-gameBoard.Render();
+
+var game = new Game(deck, spaceDeck, gameBoard, [computer, player]);

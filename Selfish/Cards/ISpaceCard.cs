@@ -85,7 +85,7 @@ public class GravitationalAnomaly : ISpaceCard
     }
 }
 
-public class Wormhole : ISpaceCard
+public class WormHole : ISpaceCard
 {
     public CardType CardType { get; } = CardType.Space;
 
